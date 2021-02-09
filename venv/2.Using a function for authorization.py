@@ -2,6 +2,7 @@ import requests
 import json
 import requests_cache
 import time
+import pandas as pd
 
 requests_cache.install_cache()
 
@@ -67,3 +68,14 @@ while page <= total_pages:
 
     # increment the page number
     page += 1
+
+
+r0 = responses[0]
+r0_json = r0.json()
+r0_artists = r0_json['artists']['artist']
+r0_df = pd.DataFrame(r0_artists)
+r0_df.head()
+
+frames = [pd.DataFrame(r.json()['artists']['artist']) for r in responses]
+artists = pd.concat(frames)
+artists.head()
